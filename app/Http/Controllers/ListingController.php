@@ -80,6 +80,14 @@ class ListingController extends Controller
     // Show edit form
     public function edit(Listing $listing)
     {
+        // Gate Way
+        // if (Gate::denies("update-listing", $listing)) {
+        //     abort(403, "Unauthorized Action");
+        // }
+
+        // authorize() way
+        $this->authorize("update-listing", $listing);
+
         return view("listings.edit", ["listing" => $listing]);
     }
 
@@ -87,6 +95,7 @@ class ListingController extends Controller
     public function update(Request $request, Listing $listing)
     {
         // Make sure logged in user is owner of listing
+        // Classical way
         if ($listing->user_id != auth()->id()) {
             abort(403, "Unauthorized Action");
         }
@@ -130,6 +139,9 @@ class ListingController extends Controller
 
         // return view("listings.manage", ["listings" => auth()->user()->listings()->get()]);
         // return view("listings.manage", ["listings" => User::find(auth()->id())->listings()->paginate(1)]);
+
+        // return view("listings.manage", ["listings" => Listing::all()]);
+
         return view("listings.manage", ["listings" => User::find(auth()->id())->listings()->get()]);
     }
 }

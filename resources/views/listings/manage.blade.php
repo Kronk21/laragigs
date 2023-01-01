@@ -24,6 +24,9 @@
                             {{ $listing->title }}
                         </a>
                     </td>
+
+                    {{-- @can(nombre de la habilidad, parametros) --}}
+                    @can("update-listing", $listing)                                            
                     <td
                         class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                     >
@@ -51,6 +54,8 @@
                             </button>
                         </form>
                     </td>
+                    @endcan
+
                 </tr> 
                 @endforeach    
             @else
